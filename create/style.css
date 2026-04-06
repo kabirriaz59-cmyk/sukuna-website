@@ -1,0 +1,880 @@
+:root {
+    --crimson: #8B0000;
+    --ink: #050505;
+    --bone: #F5F5DC;
+}
+
+/* Base reset to ensure padding doesn't break the width */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    /* FIX: Allow vertical scrolling so sections don't squash together */
+    overflow-x: hidden; 
+    overflow-y: auto;
+}
+
+/* --- SECTION 1: HERO (THE SUKUNA TITLE) --- */
+.hero-section {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    /* Moves the background image logic here instead of body */
+    background-image: url('sukuna.jpg');
+    background-size: cover;
+    background-position: 80% center; 
+    background-repeat: no-repeat;
+}
+
+/* Dark tint for Section 1 */
+.bg-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        to bottom,
+        rgba(5, 5, 5, 0.8) 0%,
+        rgba(5, 5, 5, 0.4) 50%,
+        rgba(5, 5, 5, 0.8) 100%
+    );
+    z-index: 1;
+    pointer-events: none;
+}
+
+.container {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.sukuna-title {
+    font-size: 8rem;
+    font-weight: 900;
+    position: relative;
+    display: inline-block;
+    margin: 0;
+    color: var(--bone);
+    text-transform: uppercase;
+    line-height: 1;
+    letter-spacing: 15px;
+    padding-left: 15px; /* Centers the text perfectly */
+    text-shadow: 0 0 30px rgba(0,0,0,0.9);
+}
+
+/* Slicing Effect Pseudo-elements */
+.sukuna-title::before,
+.sukuna-title::after {
+    content: "SUKUNA";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    letter-spacing: 15px;
+    padding-left: 15px;
+    transition: transform 0.4s cubic-bezier(0.1, 0, 0.3, 1);
+    pointer-events: none;
+}
+
+.sukuna-title::before {
+    clip-path: polygon(0 0, 100% 0, 100% 48%, 0 52%);
+    color: var(--crimson);
+    z-index: 2;
+}
+
+.sukuna-title::after {
+    clip-path: polygon(0 52%, 100% 48%, 100% 100%, 0 100%);
+    color: var(--bone);
+    z-index: 1;
+}
+
+/* Slash Animation on Hover */
+.container:hover .sukuna-title::before {
+    transform: translate(12px, -12px);
+}
+
+.container:hover .sukuna-title::after {
+    transform: translate(-12px, 12px);
+}
+
+.subtitle {
+    margin-top: 15px;
+    letter-spacing: 8px;
+    padding-left: 8px;
+    color: var(--bone);
+    opacity: 0.7;
+    text-transform: uppercase;
+    font-weight: 300;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+
+/* --- SECTION 2: DOMAIN INFO (THE BUTTON) --- */
+.domain-info-section {
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('domain expansion.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Parallax effect */
+}
+
+/* Darker overlay for readability in Section 2 */
+.domain-info-section::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 1;
+}
+
+.content-box {
+    position: relative;
+    z-index: 5;
+    max-width: 550px;
+    padding: 50px;
+    text-align: center;
+    background: rgba(139, 0, 0, 0.1); 
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(245, 245, 220, 0.2);
+    border-radius: 15px;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+}
+
+.content-box h2 {
+    color: var(--crimson);
+    font-size: 3rem;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 5px black;
+}
+
+.content-box p {
+    color: var(--bone);
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.expand-btn {
+    background: var(--crimson);
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    font-size: 1rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 5px;
+}
+
+.expand-btn:hover {
+    background: white;
+    color: var(--crimson);
+    transform: scale(1.1);
+    box-shadow: 0 0 30px var(--crimson);
+}
+
+/* --- ANIMATION UTILITIES FOR JS --- */
+.dynamic-slash {
+    position: fixed;
+    height: 2px;
+    background: white;
+    box-shadow: 0 0 10px white, 0 0 20px var(--crimson);
+    z-index: 1000;
+    pointer-events: none;
+    animation: slash-fly 0.3s ease-out forwards;
+}
+
+@keyframes slash-fly {
+    0% { transform: scaleX(0); opacity: 1; }
+    100% { transform: scaleX(1.5); opacity: 0; }
+}
+
+.shake-screen {
+    animation: shake 0.1s infinite;
+}
+
+@keyframes shake {
+    0% { transform: translate(2px, 2px); }
+    100% { transform: translate(-2px, -2px); }
+}
+
+#canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    pointer-events: none;
+}
+/* This makes the slashes actually show up as white lines */
+.dynamic-slash {
+    position: fixed;
+    height: 2px;
+    background: white;
+    box-shadow: 0 0 10px white, 0 0 20px var(--crimson);
+    z-index: 9999; /* Must be a very high number to stay on top */
+    pointer-events: none;
+    animation: slash-fly 0.3s ease-out forwards;
+}
+
+@keyframes slash-fly {
+    0% { transform: scaleX(0); opacity: 1; }
+    100% { transform: scaleX(1.5); opacity: 0; }
+}
+
+/* This makes the whole page shake when you click the button */
+.shake-screen {
+    animation: shake 0.1s infinite;
+}
+
+@keyframes shake {
+    0% { transform: translate(2px, 2px); }
+    100% { transform: translate(-2px, -2px); }
+}
+/* Ensure the domain section crops slashes so they don't fly into Section 1 */
+.domain-info-section {
+    position: relative;
+    overflow: hidden; /* Crucial: keeps slashes inside this section */
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('domain expansion.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/* Updated Slash Look for local positioning */
+.dynamic-slash {
+    position: absolute; /* Changed from fixed to absolute */
+    background: white;
+    box-shadow: 0 0 15px white, 0 0 30px var(--crimson);
+    z-index: 10;
+    pointer-events: none;
+    animation: slash-fly 0.3s ease-out forwards;
+}
+
+@keyframes slash-fly {
+    0% { transform: translate(-50%, -50%) scaleX(0); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scaleX(1.5); opacity: 0; }
+}
+
+/* Shake applied to the section specifically */
+.shake-screen {
+    animation: shake 0.1s infinite;
+}
+
+@keyframes shake {
+    0% { transform: translate(3px, 3px); }
+    50% { transform: translate(-3px, -3px); }
+    100% { transform: translate(3px, -3px); }
+}
+.domain-info-section {
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Keeps the video and slashes contained */
+}
+
+.bg-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the video fills the screen without stretching */
+    z-index: -1; /* Places video behind the text and button */
+}
+
+/* Updated overlay for the video section */
+.domain-info-section .bg-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Adjust this to make the video darker or lighter */
+    z-index: 0;
+}
+/* 1. Initial hidden state for the content box */
+.content-box {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s ease-out; /* Controls how smooth the reveal is */
+    
+    /* Keep your existing styles below */
+    position: relative;
+    z-index: 5;
+    max-width: 550px;
+    padding: 50px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.7); 
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--crimson);
+    border-radius: 15px;
+}
+
+/* 2. The class that JS will add when you scroll down */
+.content-box.reveal-active {
+    opacity: 1;
+    transform: translateY(0);
+}
+/* 1. Enable snapping on the entire page */
+html {
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+}
+
+/* 2. Tell each section where to snap to */
+.hero-section, 
+.domain-info-section {
+    scroll-snap-align: start;
+    scroll-snap-stop: always; /* Prevents skipping sections on fast scrolls */
+    height: 100vh;
+    width: 100%;
+}
+
+/* 3. Ensure the content box starts hidden for the reveal animation */
+.content-box {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.9s cubic-bezier(0.17, 0.67, 0.83, 0.67); /* Smoother entrance */
+    
+    /* Your existing styles (background, border, etc.) remain here */
+}
+
+.content-box.reveal-active {
+    opacity: 1;
+    transform: translateY(0);
+}
+#canvas {
+    position: fixed; /* Keeps particles visible while scrolling */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1; /* Sits above the background image/video but below text */
+    pointer-events: none; /* Allows you to still click the "Expand Domain" button */
+}
+
+/* Ensure other elements stay above particles */
+.container, .content-box {
+    z-index: 10;
+    position: relative;
+}
+.fight-section {
+    height: 100vh;
+    width: 100%;
+    background: #000;
+    overflow: hidden;
+    position: relative;
+    scroll-snap-align: start; /* Supports your snapping logic */
+}
+
+.clash-container {
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+.fighter {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    padding: 50px;
+    transition: flex 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    filter: grayscale(80%);
+    background-size: cover;
+    background-position: center;
+}
+
+/* Add your images here */
+.gojo {
+    background-image: url('gojo_fight.jpg'); 
+    border-right: 2px solid #000;
+}
+
+.sukuna-clash {
+    background-image: url('sukuna_fight.jpg');
+}
+
+/* Hover expansion effect */
+.fighter:hover {
+    flex: 1.5;
+    filter: grayscale(0%);
+}
+
+.fighter-info {
+    position: relative;
+    z-index: 5;
+    color: var(--bone);
+    text-shadow: 0 0 20px rgba(0,0,0,0.8);
+}
+
+.fighter-info h3 {
+    font-size: 3rem;
+    margin: 0;
+    letter-spacing: 5px;
+}
+
+/* The VS Divider */
+.vs-divider {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    background: var(--crimson);
+    color: white;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-weight: 900;
+    font-size: 1.5rem;
+    box-shadow: 0 0 30px var(--crimson);
+    border: 4px solid #000;
+}
+
+/* Blue and Red glows for the fighters */
+.gojo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 100, 255, 0.5), transparent);
+    opacity: 0.5;
+}
+
+.sukuna-clash::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(139, 0, 0, 0.5), transparent);
+    opacity: 0.5;
+}
+/* The VS Divider enhancements */
+.vs-divider {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: visible; /* Allows the glow to expand */
+}
+
+/* Creating the two energy halves */
+.vs-divider::before, .vs-divider::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    opacity: 0;
+    transition: all 0.5s ease;
+}
+
+/* Gojo's Hollow Purple side */
+.vs-divider::before {
+    background: radial-gradient(circle, #8000ff, #4b0082);
+    left: -50%;
+    box-shadow: 0 0 50px #8000ff;
+}
+
+/* Sukuna's Cleave/Dismantle side */
+.vs-divider::after {
+    background: radial-gradient(circle, #ff0000, #8b0000);
+    right: -50%;
+    box-shadow: 0 0 50px #ff0000;
+}
+
+/* Animation when hovering the VS */
+.vs-divider:hover::before {
+    opacity: 1;
+    transform: translateX(20px);
+}
+
+.vs-divider:hover::after {
+    opacity: 1;
+    transform: translateX(-20px);
+}
+
+.vs-divider:hover {
+    transform: translate(-50%, -50%) scale(1.5);
+    box-shadow: 0 0 100px white;
+}
+/* --- UPDATED FIGHT SECTION --- */
+.fight-section {
+    height: 100vh;
+    width: 100%;
+    background: #000;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center; /* Centers the clash container vertically */
+}
+
+.clash-container {
+    display: flex;
+    height: 80vh; /* Reduced from 100vh so images aren't as tall */
+    width: 90%;   /* Adds some breathing room on the sides */
+    margin: 0 auto;
+    border: 2px solid var(--crimson);
+    box-shadow: 0 0 50px rgba(139, 0, 0, 0.3);
+}
+
+.fighter {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    padding: 30px;
+    transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    filter: grayscale(100%);
+    
+    /* FIX: Improved image scaling */
+    background-size: cover; 
+    background-position: center top; /* Focuses on the characters' faces */
+    background-repeat: no-repeat;
+}
+
+/* Gojo Side */
+.gojo {
+    background-image: url('gojo_fight.jpg'); 
+    border-right: 1px solid #000;
+}
+
+/* Sukuna Side */
+.sukuna-clash {
+    background-image: url('sukuna_fight.jpg');
+}
+
+/* Hover expansion - controlled growth */
+.fighter:hover {
+    flex: 1.2; /* Reduced growth so it doesn't push the other off-screen */
+    filter: grayscale(0%);
+}
+
+.fighter-info h3 {
+    font-size: 2.2rem; /* Scaled down text for better fit */
+    margin: 0;
+    color: var(--bone);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+/* --- VS DIVIDER FIX --- */
+.vs-divider {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    background: var(--crimson);
+    color: white;
+    width: 60px; /* Scaled down slightly */
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-weight: 900;
+    box-shadow: 0 0 20px var(--crimson);
+}
+.heian-section {
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    background-image: url('heian_sukuna_bg.jpg'); /* Use a dark, ancient-looking image */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Parallax effect */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    scroll-snap-align: start;
+}
+
+.heian-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(40,0,0,0.7), rgba(0,0,0,0.9));
+}
+
+.heian-content {
+    position: relative;
+    z-index: 5;
+    width: 80%;
+    text-align: center;
+}
+
+/* Glitch Title Effect */
+.heian-title {
+    font-size: 6rem;
+    color: var(--bone);
+    letter-spacing: 15px;
+    margin-bottom: 50px;
+    position: relative;
+}
+
+.heian-title::before {
+    content: attr(data-text);
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    color: var(--crimson);
+    overflow: hidden;
+    clip-path: inset(40% 0 61% 0);
+    animation: glitch 4s infinite;
+}
+
+/* Heian Cards */
+.heian-grid {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.heian-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(139, 0, 0, 0.3);
+    padding: 30px;
+    width: 300px;
+    backdrop-filter: blur(5px);
+    transition: 0.4s;
+    text-align: left;
+}
+
+.heian-card:hover {
+    background: rgba(139, 0, 0, 0.1);
+    transform: translateY(-10px);
+    border-color: var(--crimson);
+}
+
+.heian-card span {
+    color: var(--crimson);
+    font-weight: 900;
+    font-size: 1.2rem;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.heian-card h4 {
+    color: white;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    letter-spacing: 2px;
+}
+
+.heian-card p {
+    color: #ccc;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+@keyframes glitch {
+    0% { transform: translateX(2px); }
+    5% { transform: translateX(-2px); }
+    10% { transform: translateX(2px); }
+    15% { transform: translateX(0); }
+    100% { transform: translateX(0); }
+}
+/* The Lightning Spark Effect */
+@keyframes lightning-flash {
+    0% { box-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #00e5ff; border-color: #fff; }
+    20% { box-shadow: 0 0 20px #00e5ff, 0 0 30px #00e5ff; border-color: #00e5ff; }
+    21% { box-shadow: none; border-color: rgba(139, 0, 0, 0.3); }
+    25% { box-shadow: 0 0 25px #fff; border-color: #fff; }
+    100% { box-shadow: none; border-color: rgba(139, 0, 0, 0.3); }
+}
+
+/* Target the second card specifically */
+.heian-card:nth-child(2):hover {
+    animation: lightning-flash 0.5s ease-out infinite;
+    background: rgba(0, 229, 255, 0.05); /* Subtle blue tint on hover */
+}
+
+/* Optional: Add a pseudo-element for a "bolt" visual */
+.heian-card:nth-child(2):hover::before {
+    content: '⚡';
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.5rem;
+    color: #00e5ff;
+    text-shadow: 0 0 10px #00e5ff;
+    animation: glitch 0.2s infinite;
+}
+.heian-visual {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%; /* Adjust size so it's not "too big" */
+    height: 80%;
+    background-image: url('sukuna_heian\ era.jpg'); /* Replace with your image file */
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.4; /* Makes it look like a background spirit */
+    filter: sepia(1) saturate(5) hue-rotate(-50deg); /* Gives it a cursed red tint */
+    z-index: 1;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+
+/* Make the image pop when the section is revealed */
+.heian-section.reveal-active .heian-visual {
+    opacity: 0.6;
+    animation: heian-float 6s ease-in-out infinite;
+}
+
+@keyframes heian-float {
+    0%, 100% { transform: translate(-50%, -52%); }
+    50% { transform: translate(-50%, -48%); }
+}
+
+/* Ensure content stays on top of the image */
+.heian-content {
+    position: relative;
+    z-index: 10;
+}
+/* --- MOBILE RESPONSIVENESS --- */
+@media (max-width: 768px) {
+    /* 1. Disable Scroll Snapping for better touch control */
+    html {
+        scroll-snap-type: none;
+    }
+
+    /* 2. Hero Section: Adjust font sizes */
+    .sukuna-title {
+        font-size: 4rem;
+        letter-spacing: 10px;
+    }
+
+    /* 3. Fight Section: Change from Side-by-Side to Top-and-Bottom */
+    .clash-container {
+        flex-direction: column;
+        height: auto; /* Let it grow with content */
+        width: 95vw;
+    }
+
+    .fighter {
+        height: 40vh; /* Give each fighter a specific height */
+        flex: none;
+        filter: grayscale(0%); /* Always show color on mobile */
+        padding: 20px;
+    }
+
+    .vs-divider {
+        width: 50px;
+        height: 50px;
+        font-size: 1rem;
+    }
+
+    /* 4. Heian Era: Stack the cards vertically */
+    .heian-title {
+        font-size: 3rem;
+        letter-spacing: 5px;
+    }
+
+    .heian-grid {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .heian-card {
+        width: 90%; /* Take up most of the screen width */
+        padding: 20px;
+    }
+
+    .heian-visual {
+        width: 100%;
+        height: 40%;
+        opacity: 0.2; /* Lower opacity so text stays readable */
+    }
+
+    /* 5. Domain Section: Scale down the box */
+    .content-box {
+        width: 90%;
+        padding: 25px;
+    }
+    
+    .content-box h2 {
+        font-size: 1.8rem;
+    }
+}
+@media (max-width: 768px) {
+    /* Stack the fighters vertically */
+    .clash-container {
+        flex-direction: column;
+        height: 90vh; /* Allow enough height for both images */
+        width: 100%;
+        margin: 0;
+        border: none;
+    }
+
+    .fighter {
+        flex: 1; /* Each takes half the height */
+        width: 100%;
+        filter: grayscale(0%); /* Keep colors on mobile since there is no hover */
+        background-position: center center;
+        padding: 20px;
+    }
+
+    /* Move the VS divider to the center of the stack */
+    .vs-divider {
+        top: 50%;
+        left: 50%;
+        width: 50px;
+        height: 50px;
+        font-size: 1rem;
+        border: 2px solid white;
+        box-shadow: 0 0 15px var(--crimson);
+    }
+
+    /* Shrink the text so it fits */
+    .fighter-info h3 {
+        font-size: 1.5rem;
+        letter-spacing: 2px;
+    }
+
+    .fighter-info p {
+        font-size: 0.8rem;
+    }
+
+    /* Prevent the blue/red flares from being too blinding on small screens */
+    .aura {
+        opacity: 0.4;
+    }
+}
+.vs-divider {
+    z-index: 99; /* Higher than the fighters */
+    pointer-events: auto; /* Ensures it can still be tapped */
+}
+
+.fighter {
+    z-index: 1;
+}

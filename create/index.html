@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sukuna | King of Curses</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="bg-overlay"></div>
+    
+    <canvas id="canvas"></canvas>
+
+    <section class="hero-section">
+        <div class="container">
+            <div class="slash-line"></div>
+            <h1 class="sukuna-title">SUKUNA</h1>
+            <p class="subtitle">RYOMEN — THE KING OF CURSES</p>
+            
+            <button class="domain-btn">
+                </button>
+        </div>
+    </section>
+
+    <section class="domain-info-section">
+    <video autoplay muted loop playsinline class="bg-video">
+        <source src="Sukuna_domain_expansion.mp4" type="video/mp4">
+    </video>
+
+    <div class="bg-overlay"></div>
+
+    <div class="content-box">
+        <h2>THE KING OF CURSES</h2>
+        <p>
+            Ryomen Sukuna is the undisputed strongest sorcerer in history. 
+            A calamity from the Heian Era, his "Malevolent Shrine" leaves 
+            nothing but dust and echoes in its wake.
+        </p>
+        <button class="expand-btn" onclick="activateMalevolentShrine()">
+            EXPAND DOMAIN
+        </button>
+    </div>
+</section>
+<section class="fight-section">
+    <div class="clash-container">
+        <div class="fighter gojo">
+            <div class="fighter-info">
+                <h3>SATORU GOJO</h3>
+                <p>The Honored One</p>
+            </div>
+        </div>
+        <div class="vs-divider" onmouseenter="triggerUltimateClash()">
+    <span>VS</span>
+</div>
+        <div class="fighter sukuna-clash">
+            <div class="fighter-info">
+                <h3>RYOMEN SUKUNA</h3>
+                <p>The King of Curses</p>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="heian-section">
+    <div class="heian-overlay"></div>
+    
+    <div class="heian-visual"></div>
+
+    <div class="heian-content">
+        <h2 class="heian-title" data-text="HEIAN ERA">HEIAN ERA</h2>
+        <div class="heian-grid">
+            <div class="heian-card">
+                <span>01</span>
+                <h4>FOUR ARMS</h4>
+                <p>The perfect body for jujutsu, allowing constant chanting and hand signs.</p>
+            </div>
+            <div class="heian-card kamutoke">
+                <span>02</span>
+                <h4>KAMUTOKE</h4>
+                <p>A Vajra-like cursed tool capable of unleashing devastating lightning strikes.</p>
+            </div>
+            <div class="heian-card">
+                <span>03</span>
+                <h4>HITEN</h4>
+                <p>The legendary trident used by the King of Curses to dominate the Golden Age.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <script src="script.js"></script>
+</body>
+</html>
